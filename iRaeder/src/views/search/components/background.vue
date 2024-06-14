@@ -1,15 +1,5 @@
 <template>
   <div>
-    <nav>
-      <div class="logo">Explore.</div>
-      <div class="nav-links">
-        <ul>
-          <li><img src="../assets/images/linkedin.png" alt="" /></li>
-          <li><img src="../assets/images/facebook.png" alt="" /></li>
-          <li><img src="../assets/images/instagram-logo.png" alt="" /></li>
-        </ul>
-      </div>
-    </nav>
     <section id="sectionone" class="screen">
       <div id="scene">
         <div data-depth="0.1" class="bg">
