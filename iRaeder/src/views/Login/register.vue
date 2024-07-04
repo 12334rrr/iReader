@@ -18,8 +18,8 @@
         <div class="password" v-if="isShowPassWord">
           <p class="prompt">Enter your password*</p>
           <div class="accountBox">
-            <el-icon v-if="isShowUsername===false" class="icon"><Right /></el-icon>
-            <el-icon v-else-if="isShowUsername===true && passwordRange>=0 && passwordRange<=1" class="icon-err"><Close /></el-icon>
+            <el-icon v-if="passwordRange === -1 || password==='' " class="icon"><Right /></el-icon>
+            <el-icon v-else-if="passwordRange>=0 && passwordRange<=1" class="icon-err"><Close /></el-icon>
             <el-icon v-else class="icon-check"><Check /></el-icon>
             <el-input placeholder="Please input your password" type="password" class="accountInput" size="large" v-model="password" :prefix-icon="Lock"></el-input>
             <el-button type="primary" @click="checkPassword">Continue</el-button>
@@ -28,8 +28,9 @@
         <div class="username" v-if="isShowUsername">
           <p class="prompt">Enter your username*</p>
           <div class="accountBox">
-            <el-icon v-if="isShow===false" class="icon"><Right /></el-icon>
-            <el-icon v-else class="icon-check"><Check /></el-icon>
+            <el-icon v-if="username===''" class="icon"><Right /></el-icon>
+            <el-icon v-else-if="registerSuccess===true" class="icon-check"><Check /></el-icon>
+            <el-icon v-else class="icon-err"><Close /></el-icon>
             <el-input placeholder="Please input your password" type="password" class="accountInput" size="large" v-model="username" :prefix-icon="User"></el-input>
             <el-button type="primary" @click="gotoLogin">Continue</el-button>
           </div>
@@ -38,7 +39,7 @@
       <div class="emailPrompt" v-if="isShowEmailPrompt===true" >
         <p>Email is invalid or already taken</p>
       </div>
-      <div class="passwordPrompt">
+      <div class="passwordPrompt" v-if="isShowUsername===false && isShowPassWord === true">
         <p :style="{ color: passwordRange.value > 2 ? 'green' : 'red' }">{{ passwordPrompt }}</p>
       </div>
     </div>
@@ -60,7 +61,8 @@ const isShowUsername = ref(false);
 const email = ref('');
 const password = ref('');
 const username = ref('');
-const passwordRange = ref(0);
+const passwordRange = ref(-1);
+const registerSuccess = ref(false)
 
 const passwordPrompt = computed(() => {
   if (passwordRange.value === 1 || passwordRange.value === 2) {
@@ -90,50 +92,36 @@ const checkEmail = () => {
   console.log('checkEmail is called ' + isShowEmailPrompt.value + isShowPassWord.value);
 }
 
-function checkPasswordStrength(password) {
-  // 定义正则表达式来匹配密码复杂度
-  const patterns = {
-    weak: /^.{1,5}$/,          // 弱密码：少于等于5个字符
-    medium: /^.{6,10}$/,       // 中等密码：6到10个字符
-    strong: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{11,20}$/, // 强密码：包含数字、小写字母、大写字母和特殊字符，11到20个字符
-    veryStrong: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{21,}$/ // 超强密码：包含数字、小写字母、大写字母和特殊字符，21个字符以上
-  };
-
-  // 检查密码匹配哪个正则表达式
-  if (patterns.veryStrong.test(password)) {
-    return 4;
-  } else if (patterns.strong.test(password)) {
-    return 3;
-  } else if (patterns.medium.test(password)) {
-    return 2;
-  } else if (patterns.weak.test(password)) {
-    return 1;
-  } else {
-    return 0; // 未知情况，可以根据需要定义
-  }
-}
-
+const patterns = {
+  weak: /^.{1,5}$/,          // 弱密码：少于等于5个字符
+  medium: /^.{6,20}$/,       // 中等密码：6到10个字符
+  strong: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{11,20}$/, // 强密码：包含数字、小写字母、大写字母和特殊字符，11到20个字符
+  veryStrong: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{21,}$/ // 超强密码：包含数字、小写字母、大写字母和特殊字符，21个字符以上
+};
 const checkPassword = () => {
-  passwordRange.value = checkPasswordStrength(password.value);
+  console.log(password.value);
+  if (patterns.veryStrong.test(password.value)) {
+    passwordRange.value = 4;
+  } else if (patterns.strong.test(password.value)) {
+    passwordRange.value = 3;
+  } else if (patterns.medium.test(password.value)) {
+    passwordRange.value = 2;
+  } else if (patterns.weak.test(password.value)) {
+    passwordRange.value = 1;
+  } else {
+    passwordRange.value = 0; // 未知情况，可以根据需要定义
+  }
   console.log('Register views checkPassword is called' + passwordRange.value + '\n');
   isShowUsername.value = passwordRange.value >= 2 && passwordRange.value <= 4;
 }
 
 const gotoLogin = () => {
-  if (username.value !== '') {
-    ElMessage({
-      showClose: true,
-      message: 'Sorry, username could be empty',
-      type: 'warning',
-    });
+  if (username.value === '') {
+    ElMessage.success('Sorry, username could be empty'); // 显示成功消息
   } else {
-    ElMessage({
-      showClose: true,
-      message: 'Register successfully',
-      type: 'success',
-    },
-        router.push('/login')
-    );
+    registerSuccess.value = true; // 设置注册成功状态
+    ElMessage.success('Register successfully'); // 显示成功消息
+    router.push('/login'); // 跳转到登录页面
   }
 };
 
