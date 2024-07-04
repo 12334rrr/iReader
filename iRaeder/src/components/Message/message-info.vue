@@ -1,24 +1,24 @@
 <template>
-  <div role="alert" class="alert alert-success">
+  <div role="alert" class="alert alert-info">
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 shrink-0 stroke-current"
         fill="none"
         viewBox="0 0 24 24"
+        class="h-6 w-6 shrink-0 stroke-current"
     >
       <path
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 0 0 0118 0z"
-      />
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      ></path>
     </svg>
     <span><slot></slot></span>
   </div>
 </template>
 
 <script setup>
-// 你可以在这里添加组件逻辑，如果有需要的话
+// 可以添加组件逻辑，如果有需要的话
 </script>
 
 <style scoped>
@@ -27,12 +27,12 @@
   align-items: center;
   padding: 1rem;
   border-radius: 0.375rem;
-  background-color: #d1fae5; /* 绿色背景 */
-  color: #065f46; /* 绿色文本 */
+  background-color: #dbeafe; /* 蓝色背景 */
+  color: #3b82f6; /* 蓝色文本 */
 }
 
-.alert-success {
-  border: 1px solid #10b981; /* 绿色边框 */
+.alert-info {
+  border: 1px solid #93c5fd; /* 蓝色边框 */
 }
 
 .h-6 {

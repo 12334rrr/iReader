@@ -4,6 +4,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Search from '../views/search/search.vue'
 import TurnJs from '../views/try/turn_try.vue'
+import Register from '../views/Login/register.vue'
 import Login from '../views/Login/login.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,11 @@ const router = createRouter({
       path:"/login",
       name:"login",
       component:Login,
+    },
+    {
+      path:"/register",
+      name:"register",
+      component:Register,
     }
   ],
 });
