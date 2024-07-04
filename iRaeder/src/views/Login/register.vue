@@ -6,7 +6,7 @@
       </div>
       <div class="loginBox">
         <div class="email">
-          <p class="text">{{ register_text }}</p>
+          <p class="typing">{{ register_text }}</p>
           <p class="prompt">Enter your email*</p>
           <div class="accountBox">
             <el-icon v-if="isShowPassWord===false" class="icon"><Right /></el-icon>
@@ -51,7 +51,7 @@ import { ref, onMounted,computed } from 'vue';
 import * as THREE from 'three';
 import Birds from 'vanta/src/vanta.birds';
 import {Lock, User, Check, Right, Close} from '@element-plus/icons-vue'
-import nav_register from '../../components/nav_register.vue'
+import nav_register from '../../components/Nav/nav_register.vue'
 import {ElMessage} from "element-plus";
 import router from "../../router/index.js";
 
@@ -176,15 +176,6 @@ onMounted(() => {
   border: gray;
   border-radius: 2%;
 }
-
-.text {
-  width: 30rem;
-  white-space: pre-line;
-  color: #e5e7eb;
-  line-height: 1.8;
-  font-family: "JetBrains Mono";
-}
-
 .background {
   width: 100%;
   height: 100%;
@@ -192,17 +183,6 @@ onMounted(() => {
   top: 0;
   left: 0;
   z-index: -1;
-}
-
-.background::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle fill="%23ffffff" cx="50" cy="50" r="1"%3E%3C/circle%3E%3C/svg%3E') repeat;
-  opacity: 0.2;
 }
 .accountBox{
   display: flex;
@@ -269,5 +249,26 @@ onMounted(() => {
     font-family: "JetBrains Mono";
     margin: 30px 30px 30px 80px;
   }
+}
+.typing {
+  width: 26rem;
+  white-space: nowrap;
+  color: #e5e7eb;
+  line-height: 1.8;
+  font-family: "JetBrains Mono";
+  border-right: 2px solid transparent;
+  animation: typing 3.5s steps(15, end), blink-caret .50s step-end infinite;
+  overflow: hidden;
+}
+/* 打印效果 */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 15em; }
+}
+/* 光标闪啊闪 */
+@keyframes blink-caret {
+  from, to { opacity: 1; }
+  50% { opacity: 1; }
+  to { opacity: 0; } /* 结束时保持消失状态 */
 }
 </style>

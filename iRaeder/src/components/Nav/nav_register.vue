@@ -5,7 +5,7 @@ const router = useRouter()
 
 <template>
   <div class="nav">
-    <img src="../assets/images/logo.png" alt="logo" class="logoImg">
+    <img src="../../assets/images/logo.png" alt="logo" class="logoImg">
     <div>
       <a class="text1" href="/login" @click="router.push('/login')">Already have an account?</a>
       <a class="text2" href="/login"> Sign in →</a>

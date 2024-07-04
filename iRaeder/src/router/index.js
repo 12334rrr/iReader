@@ -6,6 +6,8 @@ import Search from '../views/search/search.vue'
 import TurnJs from '../views/try/turn_try.vue'
 import Register from '../views/Login/register.vue'
 import Login from '../views/Login/login.vue'
+import Home from "../views/Layout/home.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   // path和component对应关系的位置
@@ -29,6 +31,11 @@ const router = createRouter({
       path:"/register",
       name:"register",
       component:Register,
+    },
+    {
+      path:"/home",
+      name:"home",
+      component:Home,
     }
   ],
 });
